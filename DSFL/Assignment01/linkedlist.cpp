@@ -3,15 +3,17 @@
 
 using namespace std;
 
-linkedList::linkedList()
+template<class T>
+linkedList<T>::linkedList()
 {
 	head=NULL;
 }
 
-void linkedList::insertNode(char data,int pos)
+template<class T>
+void linkedList<T>::insertNode(T data,int pos)
 {
-	node *current=new node;
-	node *temp;
+	node<T>*current=new node<T>;
+	node<T>*temp;
 	current->data=data;
 	
 	if(head==NULL)
@@ -38,10 +40,11 @@ void linkedList::insertNode(char data,int pos)
 	}	
 }
 
-char linkedList::deleteNode(int pos)
+template<class T>
+T linkedList<T>::deleteNode(int pos)
 {
-	node *current,*temp;
-	char data;
+	node<T>*current,*temp;
+	T data;
 	
 	if(pos==1)
 	{
@@ -64,9 +67,10 @@ char linkedList::deleteNode(int pos)
 	return data;
 }
 
-void linkedList::displayList()
+template<class T>
+void linkedList<T>::displayList()
 {
-	node *temp=head;
+	node<T>*temp=head;
 	
 	while(temp!=NULL)
 	{

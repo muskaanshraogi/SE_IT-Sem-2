@@ -1,19 +1,20 @@
 
-
+template<class T>
 class node
 {
     public:
-	char data;
+	T data;
 	node *next;
 };
 
+template<class T>
 class linkedList
 {
     public:
-    	node *head;
+    	node<T>*head;
     	
     	linkedList();
-    	void insertNode(char data,int pos);
-    	char deleteNode(int pos);
+    	void insertNode(T data,int pos);
+    	T deleteNode(int pos);
     	void displayList();
 };

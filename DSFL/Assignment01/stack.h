@@ -1,18 +1,17 @@
 
 #include "linkedlist.cpp"
 
-class underflowException{};
-
+template<class t>
 class Stack
 {
-	linkedList ll;
-	node *top;
+	linkedList<t>ll;
+	node<t>*top;
     public:
     	Stack();
-    	void push(char data);
-    	char pop();
+    	void push(t data);
+    	t pop();
     	int isEmpty();
-    	char isTop();
+    	t isTop();
     	void displayStack();
 };
 

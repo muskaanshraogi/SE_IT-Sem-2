@@ -1,41 +1,44 @@
-
-#include "stack.h"
 #include<iostream>
+#include "stack.h"
 
 using namespace std;
 
-Stack::Stack()
+template<class t>
+Stack<t>::Stack()
 {
 	top=ll.head;
 }
 
-void Stack::push(char data)
+template<class t>
+void Stack<t>::push(t data)
 {
 	ll.insertNode(data,1);
 }
 
-char Stack::pop()
+template<class t>
+t Stack<t>::pop()
 {
 	if(!isEmpty()) 
 		return ll.deleteNode(1);
-	else throw underflowException();
 }
 
-int Stack::isEmpty()
+template<class t>
+int Stack<t>::isEmpty()
 {
 	if(ll.head==NULL)
 		return 1;
 	return 0;
 }
 
-void Stack::displayStack()
+template<class t>
+void Stack<t>::displayStack()
 {
 	ll.displayList();
 }
 
-char Stack::isTop()
+template<class t>
+t Stack<t>::isTop()
 {
 	if(!isEmpty()) 
 		return top->data;
-	else throw underflowException();
 }
