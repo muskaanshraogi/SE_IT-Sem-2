@@ -1,0 +1,150 @@
+***HOSPITAL MENU***
+1)Add patient
+2)Service patient
+3)Show all patients
+4)Exit
+1
+
+***ADD A NEW PATIENT***
+
+Enter patient id : 
+12345
+
+Enter the name of the patient :
+Tanmay Pardeshi
+
+Enter the patient's age :
+20
+
+Enter the disease/disorder :
+fever
+
+Patient added to the list successfully.
+
+***HOSPITAL MENU***
+1)Add patient
+2)Service patient
+3)Show all patients
+4)Exit
+1
+
+***ADD A NEW PATIENT***
+
+Enter patient id : 
+22222
+
+Enter the name of the patient :
+Snehal Karche
+
+Enter the patient's age :
+44
+
+Enter the disease/disorder :
+accident
+
+Patient added to the list successfully.
+
+***HOSPITAL MENU***
+1)Add patient
+2)Service patient
+3)Show all patients
+4)Exit
+1
+
+***ADD A NEW PATIENT***
+
+Enter patient id : 
+33425
+
+Enter the name of the patient :
+Saba Singh
+
+Enter the patient's age :
+45
+
+Enter the disease/disorder :
+dengue
+
+Patient added to the list successfully.
+
+***HOSPITAL MENU***
+1)Add patient
+2)Service patient
+3)Show all patients
+4)Exit
+3
+
+*****PATIENTS' LIST*****
+--------------------------------------------------------------------------------------
+  ID	          Name	Age	Disease/Disorder
+--------------------------------------------------------------------------------------
+22222	  Snehal Karche	44	accident
+33425	     Saba Singh	45	dengue
+12345	Tanmay Pardeshi	20	fever
+
+***HOSPITAL MENU***
+1)Add patient
+2)Service patient
+3)Show all patients
+4)Exit
+2
+
+Next patient : 22222	Name : Snehal Karche (accident)	Age :44
+
+***HOSPITAL MENU***
+1)Add patient
+2)Service patient
+3)Show all patients
+4)Exit
+2
+
+Next patient : 33425	Name : Saba Singh (dengue)	Age :45
+
+***HOSPITAL MENU***
+1)Add patient
+2)Service patient
+3)Show all patients
+4)Exit
+1
+
+***ADD A NEW PATIENT***
+
+Enter patient id : 
+55665
+
+Enter the name of the patient :
+Neha Jena
+
+Enter the patient's age :
+87 
+
+Enter the disease/disorder :
+typhoid
+
+Patient added to the list successfully.
+
+***HOSPITAL MENU***
+1)Add patient
+2)Service patient
+3)Show all patients
+4)Exit
+2
+
+Next patient : 55665	Name : Neha Jena (typhoid)	Age :87
+
+***HOSPITAL MENU***
+1)Add patient
+2)Service patient
+3)Show all patients
+4)Exit
+2
+
+Next patient : 12345	Name : Tanmay Pardeshi (fever)	Age :20
+
+***HOSPITAL MENU***
+1)Add patient
+2)Service patient
+3)Show all patients
+4)Exit
+4
+
