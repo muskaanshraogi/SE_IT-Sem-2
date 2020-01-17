@@ -92,6 +92,8 @@ void displayMidpoint()
 	drawMidpoint(-140,0,100);
 	drawMidpoint(140,0,100);
 	drawlineDDA(-40,0,40,0);	
+	drawlineDDA(-240,0,40,120);	
+	drawlineDDA(240,0,520,120);	
 	glFlush();
 }
 
