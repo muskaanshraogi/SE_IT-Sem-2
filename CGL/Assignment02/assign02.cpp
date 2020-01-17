@@ -44,6 +44,7 @@ void drawMidpoint(float r1)
 			x += 1;
 			y -= 1;
 		}
+		
 		plot(x,y);
 		plot(x,-y);
 		plot(-x,y);
@@ -56,13 +57,54 @@ void drawMidpoint(float r1)
 	
 }
 
+void drawlineDDA(float x1,float y1,float x2,float y2)
+{
+	float x,y,Xin,Yin,dy,dx,length;
+	int i;
+	
+	dx=x2-x1;
+	dy=y2-y1;
+	
+	if(abs(dx)>=abs(dy))
+		length=abs(dx);
+	else
+		length=abs(dy);
+		
+	Xin=dx/length;
+	Yin=dy/length;
+	x=x1;
+	y=y1;
+	plot(round(x),round(y));
+	
+	for(i=0;i<length;i++)
+	{
+		x=x+Xin;
+		y=y+Yin;
+		plot(round(x),round(y));
+	}
+	glFlush();
+}
+
+
 void displayMidpoint()
 {
 	glClear(GL_COLOR_BUFFER_BIT);
 	
 	glPointSize(1.0);
 	glColor3f(1.0,1.0,1.0);
+	drawlineDDA(-800,0,800,0);
+	drawlineDDA(0,-800,0,800);
+	
+	glColor3f(1.0,0.0,0.0);
 	drawMidpoint(r);
+	
+	glColor3f(0.0,1.0,0.0);
+	drawlineDDA(0, 2*r, -sqrt(3)*r, -r);
+	drawlineDDA(0, 2*r, sqrt(3)*r, -r);
+	drawlineDDA(sqrt(3)*r, -r, -sqrt(3)*r, -r);
+	
+	glColor3f(0.0,0.0,1.0);
+	drawMidpoint(2*r);
 	glFlush();
 }
 
@@ -73,33 +115,33 @@ int main(int argc,char **argv)
 	cout<<"Enter the radius of the circle :\n"<<endl;
 	cin>>r;
 	
-	//cout<<"******MENU******\n1)Midpoint Circle Drawing Algorithm\n2)Breshenham's Circle Drawing Algorithm\n3)Exit"<<endl;
-	//cin>>choice;
+	cout<<"******MENU******\n1)Midpoint Circle Drawing Algorithm\n2)Breshenham's Circle Drawing Algorithm\n3)Exit"<<endl;
+	cin>>choice;
 	
 	glutInit(&argc,argv);
 	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
 	glutInitWindowSize(1366, 768);
 	glutInitWindowPosition(100,100);
 	
-	//switch(choice)
-	//{
-	//case 1:
+	switch(choice)
+	{
+	case 1:
 		glutCreateWindow("Midpoint Circle");
 		init();
 		glutDisplayFunc(displayMidpoint);
 		glutMainLoop();
-		//break;
-	
-	//case 2:
-		//glutCreateWindow("Bresenham's Circle");
-		//init();
+		break;
+
+	case 2:
+		glutCreateWindow("Bresenham's Circle");
+		init();
 		//glutDisplayFunc(displayBresenham);
-		//glutMainLoop();
-	//	break;
+		glutMainLoop();
+		break;
 			
-	//case 3:
-	//	exit(0);
-	//}
+	case 3:
+		exit(0);
+	}
 	
 	
 	return 0;
