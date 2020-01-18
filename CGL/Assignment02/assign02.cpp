@@ -57,6 +57,38 @@ void drawMidpoint(float r1)
 	
 }
 
+void drawBres(float r1)
+{
+	float x, y, d;
+	x = 0;
+	y = r1;
+	d = 3 - 2*r1;
+	
+	while(x<=y)
+	{
+		if(d<0)
+	     {
+	        d += 4*x + 6;
+	        x += 1;
+	     }
+	     else
+	     {
+	        d += 4*(x-y) + 10;
+	        x += 1;
+	        y -= 1;
+	     }
+	     
+	     plot(x,y);
+	     plot(-x,y);
+	     plot(x,-y);
+	     plot(-x,-y);
+	     plot(y,x);
+	     plot(-y,x);
+	     plot(y,-x);
+	     plot(-y,-x);
+	}
+}
+
 void drawlineDDA(float x1,float y1,float x2,float y2)
 {
 	float x,y,Xin,Yin,dy,dx,length;
@@ -108,6 +140,28 @@ void displayMidpoint()
 	glFlush();
 }
 
+void displayBresenham()
+{
+	glClear(GL_COLOR_BUFFER_BIT);
+	
+	glPointSize(1.0);
+	glColor3f(1.0,1.0,1.0);
+	drawlineDDA(-800,0,800,0);
+	drawlineDDA(0,-800,0,800);
+	
+	glColor3f(0.0,1.0,1.0);
+	drawBres(r);
+	
+	glColor3f(1.0,1.0,0.0);
+	drawlineDDA(0, 2*r, -sqrt(3)*r, -r);
+	drawlineDDA(0, 2*r, sqrt(3)*r, -r);
+	drawlineDDA(sqrt(3)*r, -r, -sqrt(3)*r, -r);
+	
+	glColor3f(1.0,0.0,1.0);
+	drawBres(2*r);
+	glFlush();
+}
+
 int main(int argc,char **argv)
 {
 	int choice;
@@ -135,7 +189,7 @@ int main(int argc,char **argv)
 	case 2:
 		glutCreateWindow("Bresenham's Circle");
 		init();
-		//glutDisplayFunc(displayBresenham);
+		glutDisplayFunc(displayBresenham);
 		glutMainLoop();
 		break;
 			
