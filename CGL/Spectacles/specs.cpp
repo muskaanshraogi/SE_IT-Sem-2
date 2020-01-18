@@ -54,6 +54,34 @@ void drawMidpoint(float cx, float cy, float r1)
 	
 }
 
+void drawOct(float x1, float y1, float r1)
+{
+	float x, y, p;
+	
+	p = 5/4 - r1;
+	x = 0;
+	y = r1;
+	
+	while(x <= y)
+	{
+		if(p<0)
+		{
+			p += 2*x+3;
+			x += 1;
+		}
+		else if(p >=0)
+		{
+			p += 2*(x-y)+5;
+			x += 1;
+			y -= 1;
+		}
+		
+		plot(x+x1, y+y1-r1);
+		plot(y+x1, x+y1-r1);
+	}
+	
+}
+
 void drawlineDDA(float x1,float y1,float x2,float y2)
 {
 	float x,y,Xin,Yin,dy,dx,length;
@@ -91,9 +119,17 @@ void displayMidpoint()
 	glColor3f(1.0,1.0,1.0);
 	drawMidpoint(-140,0,100);
 	drawMidpoint(140,0,100);
-	drawlineDDA(-40,0,40,0);	
+	glPointSize(3.0);
+	glColor3f(1.0,153/255.0,51/255.0);
+	drawlineDDA(-38,12.5,38,12.5);
+	glColor3f(18/255.0,136/255.0,7/255.0);
+	drawlineDDA(-40,0,40,0);
+	glPointSize(1.0);
+	glColor3f(1.0,1.0,1.0);	
 	drawlineDDA(-240,0,40,120);	
 	drawlineDDA(240,0,520,120);	
+	drawOct(40,120,30);
+	drawOct(520,120,30);
 	glFlush();
 }
 
