@@ -58,10 +58,10 @@ int binaryTree::depth(node *Tnode)
 {
 	int depthLeft,depthRight;
 	if(Tnode == NULL)
-		return 0;
+		return -1;
 	
-	depthLeft = depth(Tnode->left+1);
-	depthRight = depth(Tnode->right+1);
+	depthLeft = depth(Tnode->left)+1;
+	depthRight = depth(Tnode->right)+1;
 	
 	return(max(depthLeft,depthRight));
 }

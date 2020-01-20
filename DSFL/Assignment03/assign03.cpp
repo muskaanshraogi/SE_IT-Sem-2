@@ -8,7 +8,7 @@ int main()
 {
 	binaryTree t;
 	node *copy;
-	int choice;
+	int choice, d;
 	
 	do
 	{
@@ -28,7 +28,8 @@ int main()
 			break;
 		
 		case 3:
-			cout<<"\nThe depth of the tree is "<<t.depth(t.getRoot())<<endl;
+			d = t.depth(t.getRoot());
+			cout<<"\nThe depth of the tree is "<<d<<endl;
 			break;
 		case 4:
 			cout<<"\nThe leaf nodes are :"<<endl;

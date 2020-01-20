@@ -2,7 +2,7 @@
 class node
 {
     public:
-	int data;
+	char data;
 	node *left;
 	node *right;
 };
