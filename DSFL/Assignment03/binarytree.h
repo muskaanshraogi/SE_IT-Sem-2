@@ -13,6 +13,11 @@ class binaryTree
     public:
     	binaryTree();
     	int isEmpty();
-    	node createBTree();
-    	void displayBTree(node *TNode);
+    	node *getRoot();
+    	void create();
+    	node *makeTree();
+    	void display(node *Tnode);
+    	void displayLeaf(node *Tnode);
+    	int depth(node *Tnode);
+    	node *copyTree(node *Tnode);
 };
