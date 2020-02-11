@@ -14,6 +14,7 @@
 	
 .code
 
+start:
 	mov ax, @data
 	mov ds, ax
 	
@@ -22,22 +23,7 @@
 	int 21h
 	
 	lea si, str1
-
-;	------GET STRING------	
-	loop1:
-	mov ah, 01h
-	int 21h
-	mov [si], al
-	inc si
-	inc len
-	cmp al, 13
-	jne loop1
-	
-	mov ax, len
-	mov len1, ax
-	sub len, 1
-	add len, 30h
-	
+	call accept
 
 ;	------MENU------		
 	loopmenu:
@@ -46,89 +32,121 @@
 	int 21h
 	mov ah, 01h
 	int 21h
+	
 	cmp al, 31h
-	je  looplen
+	je A
 	cmp al, 32h
-	je  looprev
+	je B
 	cmp al, 33h
-	je  looppal
+	je C
 	cmp al, 34h
 	je  loopend
 	
-;	------STRING LENGTH------
-	looplen:
-	
-	
-	mov ah,09h
-	mov dx, offset print_len
-	int 21h
-	
-	mov dx, len
-	mov ah, 02h
-	int 21h
-	jmp loopmenu
-	
-;	------STRING REVERSE------
-	looprev:
-	lea si, str1
-	add si, len1
-	lea di, str2
-	
-	loop2:
-	mov bl, [si]
-	mov [di], bl
-	dec si
-	inc di
-	cmp di, len
-	jne loop2
-	
-	mov al, '$'
-	mov [di], al
-	
-	mov ah, 09h
-	mov dx, offset rev
-	int 21h
-	
-	mov ah, 09h
-	mov dx, offset str2
-	int 21h
-	jmp loopmenu
-	
-;	------PALINDROME------
-	looppal:
-	sub len1, 1
-	
-	lea si, str1
-	lea di, str1
-	add di, len1
-	sub di, 1
-	mov cx, len1
-	
-	loop3:
-	mov al, [si]
-	mov bl, [di]
-	cmp al, bl
-	jne nopal
-	inc si
-	dec di
-	dec cx
-	jnz loop3
-	
-	mov ah, 09h
-	mov dx, offset pal
-	int 21h
-	jmp loopmenu
-	
-	
-	nopal:
-	mov ah, 09h
-	mov dx, offset notpal
-	int 21h
-	jmp loopmenu
-	
-	
+A:
+call proclength
+jmp loopmenu
+
+B:
+call procreverse
+jmp loopmenu
+
+C:
+call procpal
+jmp loopmenu
+
 ;	------END------
 	loopend:
 	mov ah, 4ch
 	int 21h
+	
+;	------GET STRING------	
+	accept proc near
+		loop1:
+		mov ah, 01h
+		int 21h
+		mov [si], al
+		inc si
+		inc len
+		cmp al, 13
+		jne loop1
+		
+		mov ax, len
+		mov len1, ax
+		sub len, 1
+		add len, 30h
+		ret
+	endp
+	
+;	------STRING LENGTH------
+	proclength proc near
+		mov ah,09h
+		mov dx, offset print_len
+		int 21h
+		
+		mov dx, len
+		mov ah, 02h
+		int 21h
+		ret
+	endp
+	
+;	------STRING REVERSE------
+	procreverse proc near
+		lea si, str1
+		add si, len1
+		lea di, str2
+		
+		loop2:
+		mov bl, [si]
+		mov [di], bl
+		dec si
+		inc di
+		cmp di, len
+		jne loop2
+		
+		mov al, '$'
+		mov [di], al
+		
+		mov ah, 09h
+		mov dx, offset rev
+		int 21h
+		
+		mov ah, 09h
+		mov dx, offset str2
+		int 21h
+		ret
+	endp
+	
+;	------PALINDROME------
+	procpal proc near
+		sub len1, 1
+		
+		lea si, str1
+		lea di, str1
+		add di, len1
+		sub di, 1
+		mov cx, len1
+		
+		loop3:
+		mov al, [si]
+		mov bl, [di]
+		cmp al, bl
+		jne nopal
+		inc si
+		dec di
+		dec cx
+		jnz loop3
+		
+		mov ah, 09h
+		mov dx, offset pal
+		int 21h
+		jmp loopmenu
+		
+		
+		nopal:
+		mov ah, 09h
+		mov dx, offset notpal
+		int 21h
+		ret
+	endp
+	
 end	
