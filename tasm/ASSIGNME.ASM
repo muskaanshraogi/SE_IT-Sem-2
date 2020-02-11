@@ -4,6 +4,7 @@
 	arr     db      10 dup(?)
 	num     db      ?
 	sum	db	?
+	rem	db	?
 	msg1    db      13,10,'Enter the total number of numbers:',13,10,'$'
 	msg2    db      13,10,'Enter number:',13,10,'$'
 	msg3    db      13,10,'The sum is:',13,10,'$'
@@ -44,7 +45,6 @@
 	
 	L2:	
 		add bl,[si]
-		
 		inc si
 		dec cl
 		jnz L2
@@ -52,24 +52,19 @@
 	mov ah,09h
 	mov dx,offset msg3
 	int 21h
-	;mov sum,bl
-	;add bl,30h
 	
-	;cmp sum,39h
-	;jle no_add
+	mov ax, bx
+	aam
+	add ax, 3030h
+	mov bl, al
+	mov dl, ah
+	mov ah, 02h
+	int 21h
+	mov dl, bl
+	mov ah, 02h
+	int 21h
 	
-	;mov bl,sum
-	;aam 
-	;add bh,30h
-	;mov dh,bh
-	;mov ah,02h
-	;int 21h
 	
-	;no_add:
-		add bl,30h
-		mov dl,bl
-		mov ah,02h
-		int 21h
 	
 	mov ah,4ch
 	int 21h
