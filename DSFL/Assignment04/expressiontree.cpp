@@ -27,14 +27,14 @@ void expressionTree::create(char expression[50])
 
 node *expressionTree::createTree(char expression[50])
 {
-	Stack s;
-	node *current;
+	stack<node *>s;
+	node *temp;
 	
 	for(int i=0; i<strlen(expression); i++)
 	{
-		if((expression[i] >= 'a' && expression[i] <= 'z') || (expression[i] >= 'A' && expression[i] <= 'Z'))
+		if(isalnum(expression[i]))
 		{
-			node *temp = new node;
+			temp = new node;
 			temp->data = expression[i];
 			temp->left = NULL;
 			temp->right = NULL;
@@ -42,16 +42,18 @@ node *expressionTree::createTree(char expression[50])
 		}
 		else if((expression[i] == '+') || (expression[i] == '-') || (expression[i] == '*') || (expression[i] == '/') || (expression[i] == '^'))
 		{
-			node *temp = new node;
+			temp = new node;
 			temp->data = expression[i];
-			temp->right = s.pop();
-			temp->left = s.pop();
-			current= temp;
+			temp->right = s.top();
+			s.pop();
+			temp->left = s.top();
+			s.pop();
 			s.push(temp);
+
 		}
 	}
 	
-	return current;
+	return temp;
 }
 
 void expressionTree::inOrderRec(node *Tnode)
@@ -59,7 +61,7 @@ void expressionTree::inOrderRec(node *Tnode)
 	if(Tnode != NULL)
 	{
 		inOrderRec(Tnode->left);
-		cout<<setw(3)<<Tnode->data;
+		cout<<Tnode->data;
 		inOrderRec(Tnode->right);
 	}
 	if(isEmpty())
@@ -70,7 +72,7 @@ void expressionTree::preOrderRec(node *Tnode)
 {
 	if(Tnode != NULL)
 	{
-		cout<<setw(3)<<Tnode->data;
+		cout<<Tnode->data;
 		preOrderRec(Tnode->left);
 		preOrderRec(Tnode->right);
 	}
@@ -84,68 +86,79 @@ void expressionTree::postOrderRec(node *Tnode)
 	{
 		postOrderRec(Tnode->left);
 		postOrderRec(Tnode->right);
-		cout<<setw(3)<<Tnode->data;
+		cout<<Tnode->data;
 	}
 	if(isEmpty())
 		cout<<"\nTree is empty."<<endl;
 }
 
-void expressionTree::inOrder(node *Tnode)
+void expressionTree::inOrder(node *temp)
 {
-	node *temp = root;
-	stack<char>s;
+	stack<node *>s;
+	cout<<"\nThe inorder traversal is : ";
 	
-	while(temp!=NULL)
+	while(1)
 	{
-		s.push(temp->data);
-		temp = temp->left;
+		while(temp != NULL)
+		{
+			s.push(temp);
+			temp = temp->left;
+		}
+	
+		if(s.empty())
+			return;
+		temp = s.top();
+		s.pop();
+		cout<<temp->data;
+		temp = temp->right;
+	}
+}
+
+void expressionTree::preOrder(node *temp)
+{
+	stack<node *>s;
+	cout<<"\nThe preorder traversal is : ";
+	
+	while(1)
+	{
+		while(temp != NULL)
+		{
+			cout<<temp->data;
+			s.push(temp);
+			temp = temp->left;
+		}
+	
+		if(s.empty())
+			return;
+		temp = s.top();
+		s.pop();
+		temp = temp->right;
+	}
+}
+
+void expressionTree::postOrder(node *temp)
+{
+	stack<node *>s1, s2;
+	cout<<"\nThe postorder traversal is : ";
+	
+	s1.push(temp);
+	while(!s1.empty())
+	{
+		node *temp = s1.top();
+		s1.pop();
+		s2.push(temp);
+		
+		if(temp->left != NULL)
+			s1.push(temp->left);
+		
+		if(temp->right != NULL)
+			s1.push(temp->right);
 	}
 	
-	if(s.empty())
-		return;
-	temp->data = s.top();
-	s.pop();
-	cout<<setw(3)<<temp->data;
-	temp = temp->right;
-}
-
-Stack::Stack()
-{
-	top = NULL;
-}
-
-int Stack::isEmpty()
-{
-	if(top == NULL)
-		return 1;
-	return 0;
-}
-
-void Stack::push(node *data)
-{
-	Snode *current = new Snode;
-	current->data = data;
-	
-	if(isEmpty())
+	while(!s2.empty())
 	{
-		current->next =NULL;
-		top = current;
+		temp = s2.top();
+		s2.pop();
+		cout<<temp->data;
 	}
-	else
-	{
-		current->next = top;
-		top = current;
-	}
-	
-}
-
-node *Stack::pop()
-{
-	node *data;
-	Snode *temp = top;
-	
-	data = temp->data;
-	top = temp->next;
-	delete(temp);
-	return data;	
 }

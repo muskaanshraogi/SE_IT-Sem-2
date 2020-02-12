@@ -4,7 +4,7 @@
 
 using namespace std;
 
-void createT(expressionTree t);
+expressionTree createT(expressionTree t);
 void traversals(expressionTree t);
 void recursive(expressionTree t);
 void nonrecursive(expressionTree t);
@@ -22,7 +22,7 @@ int main()
 		switch(choice)
 		{
 		case 1:
-			createT(t);
+			t = createT(t);
 			break;
 			
 		case 2:
@@ -35,7 +35,7 @@ int main()
 	}while(1);
 }
 
-void createT(expressionTree t)
+expressionTree createT(expressionTree t)
 {
 	int choice;
 	char postfix[50];
@@ -44,6 +44,7 @@ void createT(expressionTree t)
 	cin>>postfix;
 	t.create(postfix);
 	cout<<"\nThe expression tree has been created successfully!"<<endl;
+	return t;
 }
 
 void traversals(expressionTree t)
@@ -84,15 +85,21 @@ void recursive(expressionTree t)
 		switch(choice)
 		{
 		case 1:
+			cout<<"\nThe preorder traversal is : ";
 			t.preOrderRec(t.getRoot());
+			cout<<endl;
 			break;
 			
 		case 2:
+			cout<<"\nThe inorder traversal is : ";
 			t.inOrderRec(t.getRoot());
+			cout<<endl;
 			break;
 		
 		case 3:
+			cout<<"\nThe postorder traversal is : ";
 			t.postOrderRec(t.getRoot());
+			cout<<endl;
 			break;
 		
 		case 4:
@@ -108,21 +115,21 @@ void nonrecursive(expressionTree t)
 	
 	do
 	{
-		cout<<"\n***NON-RECURSIVE TRAVERSALS***\n1)Preorder\n2)Inorder\n3)Postorder\n4)Back"<<endl;
+		cout<<"\n\n***NON-RECURSIVE TRAVERSALS***\n1)Preorder\n2)Inorder\n3)Postorder\n4)Back"<<endl;
 		cin>>choice;
 		
 		switch(choice)
 		{
 		case 1:
-			//t.preOrder(t.getRoot());
+			t.preOrder(t.getRoot());
 			break;
 			
 		case 2:
-			//t.inOrder(t.getRoot());
+			t.inOrder(t.getRoot());
 			break;
 		
 		case 3:
-			//t.postOrder(t.getRoot());
+			t.postOrder(t.getRoot());
 			break;
 		
 		case 4:

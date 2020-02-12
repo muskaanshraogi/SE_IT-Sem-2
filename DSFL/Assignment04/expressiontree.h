@@ -19,25 +19,10 @@ class expressionTree
     	void inOrderRec(node *Tnode);
     	void preOrderRec(node *Tnode);
     	void postOrderRec(node *Tnode);
-    	void inOrder(node *Tnode);
-    	void preOrder(node *Tnode);
-    	void postOrder(node *Tnode);
+    	void inOrder(node *temp);
+    	void preOrder(node *temp);
+    	void postOrder(node *temp);
 };
 
 
-class Snode
-{
-    public:
-    	node *data;
-    	Snode *next;
-};
 
-class Stack
-{
-	Snode *top;
-    public:
-    	Stack();
-    	int isEmpty();
-    	void push(node *data);
-    	node *pop();
-};
