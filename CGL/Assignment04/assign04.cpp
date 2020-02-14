@@ -88,28 +88,6 @@ void drawlineBLA(float x1,float y1,float x2,float y2)
 	}
 }
 
-void boundaryFill(int x, int y, float fillcolor[], float boundarycolor[])
-{
-	float color[3];
-	
-	glReadPixels(x,y,1,1,GL_RGB,GL_FLOAT,&color);
-	
-	if(color[0] == fillcolor[0] && color[1] == fillcolor[1] && color[2] == fillcolor[2])
-		return;
-	
-	if((color[0] != boundarycolor[0] || color[1] != boundarycolor[1] || color[2] != boundarycolor[2]) && (color[0] != fillcolor[0] || color[1] != fillcolor[1] || color[2] != fillcolor[2]))
-	{
-		glColor3f(fillcolor[0],fillcolor[1],fillcolor[2]);
-		plot(x,y);
-		glFlush();
-		boundaryFill(x+1,y,fillcolor,boundarycolor);
-		boundaryFill(x-1,y,fillcolor,boundarycolor);
-		boundaryFill(x,y+1,fillcolor,boundarycolor);
-		boundaryFill(x,y-1,fillcolor,boundarycolor);
-	}
-	
-}
-
 void floodFill(int x, int y, float newcolor[])
 {
 	float color[3];
@@ -124,8 +102,8 @@ void floodFill(int x, int y, float newcolor[])
 			plot((x-y)*sin(PI/4),(x+y)*cos(PI/4));
 			glFlush();
 			floodFill(x+1,y,newcolor);
-			floodFill(x-1,y,newcolor);
 			floodFill(x,y+1,newcolor);
+			floodFill(x-1,y,newcolor);
 			floodFill(x,y-1,newcolor);
 		}
 	}
