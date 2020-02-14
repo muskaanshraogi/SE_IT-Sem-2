@@ -7,7 +7,9 @@ Date :
 ---------------------------------------------------------------------------------------------*/
 
 #include<iostream>
+#include<cmath>
 #include<GL/glut.h>
+#define PI 3.1415926535
 
 using namespace std;
 
@@ -45,7 +47,7 @@ void drawlineBLA(float x1,float y1,float x2,float y2)
     
      if(dx>dy)
      {
-          plot(x,y);
+          plot((x-y)*sin(PI/4),(x+y)*cos(PI/4));
           
           p=2*dy-dx;          
           inc1=2*(dy-dx);
@@ -60,13 +62,13 @@ void drawlineBLA(float x1,float y1,float x2,float y2)
     		     else
     			     p+=inc2;
          		x+=xinc;
-         		plot(x,y);
+         		plot((x-y)*sin(PI/4),(x+y)*cos(PI/4));
          	
           }
      }
      else	                                          
      {
-	 	plot(x,y);
+	 	plot((x-y)*sin(PI/4),(x+y)*cos(PI/4));
 	 	
 	 	p=2*dx-dy;
 	 	inc1=2*(dx-dy);
@@ -81,7 +83,7 @@ void drawlineBLA(float x1,float y1,float x2,float y2)
 			else
 				p+=inc2;
 			y+=yinc;
-			plot(x,y);
+			plot((x-y)*sin(PI/4),(x+y)*cos(PI/4));
 		}
 	}
 }
@@ -91,6 +93,10 @@ void boundaryFill(int x, int y, float fillcolor[], float boundarycolor[])
 	float color[3];
 	
 	glReadPixels(x,y,1,1,GL_RGB,GL_FLOAT,&color);
+	
+	if(color[0] == fillcolor[0] && color[1] == fillcolor[1] && color[2] == fillcolor[2])
+		return;
+	
 	if((color[0] != boundarycolor[0] || color[1] != boundarycolor[1] || color[2] != boundarycolor[2]) && (color[0] != fillcolor[0] || color[1] != fillcolor[1] || color[2] != fillcolor[2]))
 	{
 		glColor3f(fillcolor[0],fillcolor[1],fillcolor[2]);
@@ -104,6 +110,27 @@ void boundaryFill(int x, int y, float fillcolor[], float boundarycolor[])
 	
 }
 
+void floodFill(int x, int y, float newcolor[])
+{
+	float color[3];
+	
+	glReadPixels(x,y,1,1,GL_RGB,GL_FLOAT,&color);
+	
+	if(x> 0 && x<len/4 && y>0 && y<len/4)
+	{
+		if(color[0] != newcolor[0] || color[1] != newcolor[1] || color[2] != newcolor[2])
+		{
+			glColor3f(newcolor[0],newcolor[1],newcolor[2]);
+			plot((x-y)*sin(PI/4),(x+y)*cos(PI/4));
+			glFlush();
+			floodFill(x+1,y,newcolor);
+			floodFill(x-1,y,newcolor);
+			floodFill(x,y+1,newcolor);
+			floodFill(x,y-1,newcolor);
+		}
+	}
+}
+
 void init()
 {
 	glClearColor(1.0,1.0,1.0,0.0);
@@ -115,7 +142,8 @@ void init()
 void displayChessboard()
 {
 	float bColor[] = {1.0,1.0,1.0};
-	float fColor[] = {0.0,0.0,0.0}; 		
+	float fColor[] = {0.0,0.0,0.0}; 
+	float newcolor[] = {0.0,0.0,0.0};		
 	
 	glClear(GL_COLOR_BUFFER_BIT);
 	
@@ -133,7 +161,7 @@ void displayChessboard()
 	drawlineBLA(xx1+len/4,yy1,xx1+len/4,yy2);
 	drawlineBLA(xx1+len/2,yy1,xx1+len/2,yy2);
 	drawlineBLA(xx1+3*len/4,yy1,xx1+3*len/4,yy2);
-	boundaryFill(xx1+len/8,yy1+len/8,fColor,bColor);
+	floodFill(xx1+len/8,yy1+len/8,newcolor);
 	glFlush();
 	
 	
