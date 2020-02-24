@@ -1,10 +1,12 @@
 #include<bits/stdc++.h>
+#include "bst.cpp"
 
 using namespace std;
 
 int main()
 {
-	int choice;
+	int choice, data;
+	bst b;
 	
 	do
 	{
@@ -13,6 +15,46 @@ int main()
 		
 		switch(choice)
 		{
+		case 1:
+			b.insertNode();
+			break;
+		case 2:
+			b.deleteNode();
+			break;
+		
+		case 3:
+			if(!b.isEmpty())
+			{
+				cout<<"\nThe binary search tree is :"<<endl;
+				b.display(b.getRoot());
+				cout<<endl;
+			}
+			else
+				cout<<"\nTree is empty."<<endl;
+			break;
+			
+		case 4:
+			cout<<"\nEnter the number do be searched :	"<<endl;
+			cin>>data;
+			if(b.searchNode(b.getRoot(),data) != NULL)
+				cout<<"\nData found."<<endl;
+			else
+				cout<<"\nData not found."<<endl;
+			break;
+		
+		case 5:
+			b.mirrorImage(b.getRoot());
+			cout<<"\nThe mirror image of the tree is :"<<endl;
+			b.display(b.getRoot());
+			cout<<endl;
+			b.mirrorImage(b.getRoot());
+			break;
+			
+		case 6:
+			cout<<"\nThe level order traversal of the tree is :"<<endl;
+			b.displayLevel();
+			cout<<endl;
+			break;
 		case 7:
 			exit(0);
 		}

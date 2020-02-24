@@ -13,10 +13,12 @@ class bst
     public:
     	bst();
     	int isEmpty();
-    	node *insertNode(node *Tnode);
-    	void deleteNode(node *Tnode);
-    	int searchNode(node *Tnode);
-    	node *mirrorImage();
+    	node *getRoot();
+    	void insertNode();
+    	void deleteNode();
+    	node *searchNode(node *Tnode,int data);
+    	node *copyBST(node *Tnode);
+    	void mirrorImage(node *Tnode);
     	void display(node *Tnode);
-    	void displayLevel(node *Tnode);
-}
+    	void displayLevel();
+};
