@@ -75,8 +75,9 @@ void deleteFile()
 
 void copyFile()
 {
-	char filename[20], newfile[20];
+	char far(filename[20]), far(newfile[20]);
 	int h1, h2, bytes;
+	char far(buffer[512]);
 
 	printf("\nEnter the name of the file to be copied :\n");
 	scanf("%s",filename);
@@ -108,11 +109,12 @@ void copyFile()
 	int86(0x21, &inreg, &outreg);
 	h2 = outreg.x.ax;
 	
+	
 	inreg.h.ah = 0x3F;	//read file
 	inreg.x.bx = h1;
 	inreg.x.cx = 0xFF;
-	inreg.x.dx = FP_OFF(filename);
-	segreg.ds = FP_SEG(filename);
+	inreg.x.dx = FP_OFF(buffer);
+	segreg.ds = FP_SEG(buffer);
 	int86x(0x21, &inreg, &outreg, &segreg);
 	bytes = outreg.x.ax;
 	
@@ -122,18 +124,11 @@ void copyFile()
 		printf("\nReading %u bytes..\n",outreg.x.ax);
 	}
 	
-	inreg.h.ah = 0x42;
-	inreg.h.al = 0x01;
-	//inreg.x.dx = bytes;
-	inreg.x.cx = bytes;
-	int86(0x21, &inreg, &outreg);
-	
-	
 	inreg.h.ah = 0x40;	//write to file
 	inreg.x.bx = h2;
 	inreg.x.cx = bytes;
-	inreg.x.dx = FP_OFF(newfile);
-	segreg.ds = FP_SEG(newfile);
+	inreg.x.dx = FP_OFF(buffer);
+	segreg.ds = FP_SEG(buffer);
 	int86x(0x21, &inreg, &outreg, &segreg);
 	
 	
