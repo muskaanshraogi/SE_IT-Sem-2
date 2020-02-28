@@ -14,6 +14,9 @@ Date :
 using namespace std;
 
 float xx1, yy1, xx2, yy2, len;
+int backColor[] = {1,1,1};
+//float fColor[] = {0.0,0.0,0.0}; 
+int newcolor[] = {0,0,0};
 
 void plot(int x, int y)
 {
@@ -47,7 +50,7 @@ void drawlineBLA(float x1,float y1,float x2,float y2)
     
      if(dx>dy)
      {
-          plot((x-y)*sin(PI/4),(x+y)*cos(PI/4));
+          plot(x,y);
           
           p=2*dy-dx;          
           inc1=2*(dy-dx);
@@ -62,13 +65,13 @@ void drawlineBLA(float x1,float y1,float x2,float y2)
     		     else
     			     p+=inc2;
          		x+=xinc;
-         		plot((x-y)*sin(PI/4),(x+y)*cos(PI/4));
+         		plot(x,y);
          	
           }
      }
      else	                                          
      {
-	 	plot((x-y)*sin(PI/4),(x+y)*cos(PI/4));
+	 	plot(x,y);
 	 	
 	 	p=2*dx-dy;
 	 	inc1=2*(dx-dy);
@@ -83,34 +86,35 @@ void drawlineBLA(float x1,float y1,float x2,float y2)
 			else
 				p+=inc2;
 			y+=yinc;
-			plot((x-y)*sin(PI/4),(x+y)*cos(PI/4));
+			plot(x,y);
 		}
 	}
 }
 
-void floodFill(int x, int y, float newcolor[])
+void boundFill(int x, int y)
 {
 	float color[3];
-	
-	glReadPixels(x,y,1,1,GL_RGB,GL_FLOAT,&color);
-	
-	if(x> 0 && x<len/4 && y>0 && y<len/4)
+	glutSwapBuffers();
+	glReadPixels(x,y,1.0,1.0,GL_RGB,GL_FLOAT,color);
+	cout<<color[0]<<endl<<color[1]<<endl<<color[2]<<endl;
+	if(y<len/4+4)
 	{
-		if(color[0] != newcolor[0] || color[1] != newcolor[1] || color[2] != newcolor[2])
-		{
-			glColor3f(newcolor[0],newcolor[1],newcolor[2]);
-			plot((x-y)*sin(PI/4),(x+y)*cos(PI/4));
-			glFlush();
-			floodFill(x+1,y,newcolor);
-			floodFill(x,y+1,newcolor);
-			floodFill(x-1,y,newcolor);
-			floodFill(x,y-1,newcolor);
-		}
+	if((color[0]==backColor[0] && color[1]==backColor[1] && color[2]==backColor[2])&&(color[0]!=newcolor[0] || color[1]!=newcolor[1] || color[2]!=newcolor[2]))
+	{
+		glColor3f(newcolor[0],newcolor[1],newcolor[2]);
+		plot(x,y);
+		glFlush();
+		boundFill(x,y+1);
+		//boundFill(x-1,y);
+		//boundFill(x,y-1);
+		//boundFill(x+1,y);
+	}
 	}
 }
 
 void init()
 {
+	glReadBuffer(GL_BACK);
 	glClearColor(1.0,1.0,1.0,0.0);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -119,10 +123,6 @@ void init()
 
 void displayChessboard()
 {
-	float bColor[] = {1.0,1.0,1.0};
-	float fColor[] = {0.0,0.0,0.0}; 
-	float newcolor[] = {0.0,0.0,0.0};		
-	
 	glClear(GL_COLOR_BUFFER_BIT);
 	
 	glPointSize(2.0);
@@ -139,7 +139,7 @@ void displayChessboard()
 	drawlineBLA(xx1+len/4,yy1,xx1+len/4,yy2);
 	drawlineBLA(xx1+len/2,yy1,xx1+len/2,yy2);
 	drawlineBLA(xx1+3*len/4,yy1,xx1+3*len/4,yy2);
-	floodFill(xx1+len/8,yy1+len/8,newcolor);
+	boundFill(xx1+len/8,yy1+len/8);
 	glFlush();
 	
 	
