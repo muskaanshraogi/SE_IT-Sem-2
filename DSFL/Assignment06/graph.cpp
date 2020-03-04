@@ -54,7 +54,8 @@ void graph::display()
 
 void graph::makeFriend(char name1[25], char name2[25])
 {
-	node temp = head;
+	node *temp = head;
+	friendNode *temp1;
 	node *user1, *user2;
 	friendNode *newfriend1 = new friendNode;
 	friendNode *newfriend2 = new friendNode;
@@ -74,31 +75,96 @@ void graph::makeFriend(char name1[25], char name2[25])
 	}
 	else
 	{
-		newfriend1->friendAddress = user1;
-		newfriend1->next = NULL;
 		newfriend1->friendAddress = user2;
 		newfriend1->next = NULL;
+		newfriend2->friendAddress = user1;
+		newfriend2->next = NULL;
 	}
 	
 	if(user1->friends == NULL)
 		user1->friends = newfriend1;
 	else
 	{
-		temp = user1->friends;
-		while(temp->next != NULL)
-			temp = temp->next;
-		 temp->next = newfriend1;
+		temp1 = user1->friends;
+		while(temp1->next != NULL)
+			temp1 = temp1->next;
+		 temp1->next = newfriend1;
 	}
 	
 	if(user2->friends == NULL)
 		user2->friends = newfriend2;
 	else
 	{
-		temp = user2->friends;
-		while(temp->next != NULL)
-			temp = temp->next;
-		 temp->next = newfriend2;
+		temp1 = user2->friends;
+		while(temp1->next != NULL)
+			temp1 = temp1->next;
+		 temp1->next = newfriend2;
 	}
 	
 	cout<<"\n"<<user1->name<<" is now friends with "<<user2->name<<"."<<endl;
+}
+
+void graph:: displayNode(char name[25])
+{
+	node *temp = head;
+	friendNode *temp1;
+	
+	while(temp != NULL && strcmp(temp->name,name) != 0)
+		temp = temp->next;
+		
+	if(temp)
+	{
+		temp1 = temp->friends;
+		cout<<"\n-----"<<temp->name<<"'s Profile-----"<<endl;
+		cout<<"\nBirthday : "<<temp->birthday.date<<"/"<<temp->birthday.month<<"/"<<temp->birthday.year<<endl;
+		cout<<"\nComments : "<<temp->comments<<endl;
+		if(temp1)
+		{
+			int i = 1;
+			cout<<"\nFriends List :"<<endl;
+			while(temp1 != NULL)
+			{
+				cout<<i++<<". "<<temp1->friendAddress->name<<endl;
+				temp1 = temp1->next;
+			}
+		}
+		cout<<endl;
+	}
+	else
+		cout<<"\nUser does not exist."<<endl;
+}
+
+void graph:: dfs(int month)
+{
+	stack<node *>s;
+	friendNode *temp1;
+	node *temp = head;
+	while(temp)
+	{
+		temp->visited = 0;
+		temp = temp->next;
+	}
+		
+	temp = head;
+	s.push(temp);
+	head->visited = 1;
+	while(!s.empty())
+	{
+		temp = s.top();
+		s.pop();
+		
+		if(temp->birthday.month == month)
+			cout<<temp->name<<"\t"<<temp->birthday.date<<"/"<<temp->birthday.month<<"/"<<temp->birthday.year<<endl;
+			
+		temp1 = temp->friends;
+		while(temp1)
+		{
+			if(!temp1->friendAddress->visited)
+			{
+				temp1->friendAddress->visited = 1;
+				s.push(temp1->friendAddress);
+			}
+			temp1 = temp1->next;
+		}	
+	}
 }

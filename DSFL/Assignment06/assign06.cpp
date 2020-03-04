@@ -45,6 +45,15 @@ void facebook::displayAll()
 	}
 }
 
+void facebook::displayProfile()
+{
+	char user[25];
+	
+	cout<<"\nEnter name :"<<endl;
+	cin>>user;
+	g.displayNode(user);
+}
+
 void facebook::befriend()
 {
 	char user1[25], user2[25];
@@ -56,6 +65,17 @@ void facebook::befriend()
 	g.makeFriend(user1,user2);
 }
 
+void facebook::birthdays()
+{
+	int month;
+	char monthc[12][10] = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "November", "Decemeber"};
+	cout<<"\nEnter the month :"<<endl;
+	cin>>month;
+	cout<<"\n-----Birthdays in "<<monthc[month-1]<<"-----"<<endl;
+	g.dfs(month);
+	cout<<"----------------------------"<<endl;
+}
+
 int main()
 {
 	int choice, data;
@@ -63,7 +83,7 @@ int main()
 	
 	do
 	{
-		cout<<"\n*****FACEBOOK*****\n1)Create new profile\n2)See who's on facebook\n3)See who is most social\n4)See who is most / least active\n5)See friends\n6)Birthdays in the month\n7)Logout"<<endl;
+		cout<<"\n*****FACEBOOK*****\n1)Create new profile\n2)See who's on facebook\n3)Add Friends\n4)View Profile\n5)See who is most social\n6)See who is most / least active\n7)Birthdays in the month\n8)Logout"<<endl;
 		cin>>choice;
 		
 		switch(choice)
@@ -74,7 +94,16 @@ int main()
 		case 2:
 			f.displayAll();
 			break;
+		case 3:
+			f.befriend();
+			break;
+		case 4:
+			f.displayProfile();
+			break;
 		case 7:
+			f.birthdays();
+			break;
+		case 8:
 			exit(0);
 		}
 	}while(1);
