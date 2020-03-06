@@ -15,7 +15,6 @@ using namespace std;
 
 float xx1, yy1, xx2, yy2, len;
 int backColor[] = {1,1,1};
-//float fColor[] = {0.0,0.0,0.0}; 
 int newcolor[] = {0,0,0};
 
 void plot(int x, int y)
@@ -94,27 +93,22 @@ void drawlineBLA(float x1,float y1,float x2,float y2)
 void boundFill(int x, int y)
 {
 	float color[3];
-	glutSwapBuffers();
-	glReadPixels(x,y,1.0,1.0,GL_RGB,GL_FLOAT,color);
-	cout<<color[0]<<endl<<color[1]<<endl<<color[2]<<endl;
-	if(y<len/4+4)
-	{
+	glReadPixels(x,y,1,1,GL_RGB,GL_FLOAT,color);
+	
 	if((color[0]==backColor[0] && color[1]==backColor[1] && color[2]==backColor[2])&&(color[0]!=newcolor[0] || color[1]!=newcolor[1] || color[2]!=newcolor[2]))
 	{
 		glColor3f(newcolor[0],newcolor[1],newcolor[2]);
 		plot(x,y);
 		glFlush();
 		boundFill(x,y+1);
-		//boundFill(x-1,y);
-		//boundFill(x,y-1);
-		//boundFill(x+1,y);
-	}
+		boundFill(x-1,y);
+		boundFill(x,y-1);
+		boundFill(x+1,y);
 	}
 }
 
 void init()
 {
-	glReadBuffer(GL_BACK);
 	glClearColor(1.0,1.0,1.0,0.0);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
