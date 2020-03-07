@@ -34,5 +34,5 @@ class graph
     	void display();
     	void makeFriend(char name1[25], char name2[25]);
     	void dfs(int month);
-    	void bfs(int comments);
+    	void bfs();
 };

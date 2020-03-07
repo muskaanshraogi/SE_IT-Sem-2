@@ -12,8 +12,7 @@ class facebook
      	void displayAll();
      	void befriend();
      	void birthdays();
-     	void maxComments();
-     	void minComments();
+     	void comments();
 };
 
 void facebook::createProfile()
@@ -68,12 +67,17 @@ void facebook::befriend()
 void facebook::birthdays()
 {
 	int month;
-	char monthc[12][10] = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "November", "Decemeber"};
+	char monthc[12][10] = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
 	cout<<"\nEnter the month :"<<endl;
 	cin>>month;
 	cout<<"\n-----Birthdays in "<<monthc[month-1]<<"-----"<<endl;
 	g.dfs(month);
 	cout<<"----------------------------"<<endl;
+}
+
+void facebook::comments()
+{
+	g.bfs();
 }
 
 int main()
@@ -83,7 +87,7 @@ int main()
 	
 	do
 	{
-		cout<<"\n*****FACEBOOK*****\n1)Create new profile\n2)See who's on facebook\n3)Add Friends\n4)View Profile\n5)See who is most social\n6)See who is most / least active\n7)Birthdays in the month\n8)Logout"<<endl;
+		cout<<"\n*****FACEBOOK*****\n1)Create new profile\n2)See who's on facebook\n3)Add Friends\n4)View Profile\n5)See who is most / least active\n6)Birthdays in the month\n7)Logout"<<endl;
 		cin>>choice;
 		
 		switch(choice)
@@ -100,10 +104,13 @@ int main()
 		case 4:
 			f.displayProfile();
 			break;
-		case 7:
+		case 5:
+			f.comments();
+			break;
+		case 6:
 			f.birthdays();
 			break;
-		case 8:
+		case 7:
 			exit(0);
 		}
 	}while(1);

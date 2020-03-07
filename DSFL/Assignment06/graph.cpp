@@ -168,3 +168,64 @@ void graph:: dfs(int month)
 		}	
 	}
 }
+
+void graph:: bfs()
+{
+	queue<node *>q;
+	int min, max;
+	friendNode *temp1;
+	node *temp = head;
+	while(temp)
+	{
+		temp->visited = 0;
+		temp = temp->next;
+	}
+	
+	min = head->comments;
+	max = head->comments;
+	temp = head;
+	q.push(temp);
+	head->visited = 1;
+	
+	while(!q.empty())
+	{
+		temp = q.front();
+		q.pop();
+		
+		if(temp->comments > max)
+			max = temp->comments;
+		if(temp->comments < min)
+			min = temp->comments;
+			
+		temp1 = temp->friends;
+		while(temp1)
+		{
+			if(!temp1->friendAddress->visited)
+			{
+				temp1->friendAddress->visited = 1;
+				q.push(temp1->friendAddress);
+			}
+			temp1 = temp1->next;
+		}	
+	}
+	
+	cout<<"\n-----MINIMUM COMMENTS-----"<<endl;
+	temp = head;
+	while(temp != NULL)
+	{
+		if(temp->comments == min)
+			cout<<temp->name<<"\t"<<temp->comments<<endl;
+		temp = temp->next;
+	}
+	cout<<"--------------------------"<<endl;
+	
+	cout<<"\n-----MAXIMUM COMMENTS-----"<<endl;
+	temp = head;
+	while(temp != NULL)
+	{
+		if(temp->comments == max)
+			cout<<temp->name<<"\t"<<temp->comments<<endl;
+		temp = temp->next;
+	}
+	cout<<"--------------------------"<<endl;
+}
