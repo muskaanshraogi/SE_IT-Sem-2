@@ -1,3 +1,4 @@
+
 /*--------------------------------------------------------------------------------------------------------------
 Roll no : 23255
 Batch : H10
@@ -14,7 +15,11 @@ Date :
 
 using namespace std;
 
-int xx1, yy1, len, angle, t[3][3], r[4][3], m[3][2];
+void displayResultT();
+void displayResultR();
+
+int choice;
+float xx1, yy1, len, angle, t[3][3], r[4][3], m[3][2], result[10][10];
 
 void init()
 {
@@ -26,38 +31,88 @@ void init()
 
 void multiplyT()
 {
-	int i,j,k,result[10][10];
-	
-	
+	int i,j,k;
 	for(i=0;i<3;i++)
 	{
 		for(j=0;j<3;j++)
-		{
 			result[i][j]=0;
-		}
 	}
-	
 	for(i=0;i<3;i++)
 	{
 		for(j=0;j<3;j++)
 		{
 			for(k=0;k<3;k++)
-			{
 				result[i][j]+=t[i][k]*m[k][j];
-			}
 		}
 	}
+	displayResultT();
+}
+
+void multiplyR()
+{
+	int i,j,k;
+	for(i=0;i<4;i++)
+	{
+		for(j=0;j<3;j++)
+			result[i][j]=0;
+	}
 	
-	glColor3f(1.0,0.0,0.0);
+	for(i=0;i<4;i++)
+	{
+		for(j=0;j<3;j++)
+		{
+			for(k=0;k<3;k++)
+				result[i][j]+=r[i][k]*m[k][j];
+		}
+	}
+	displayResultR();
+}
+
+void displayResultT()
+{
+	glClear(GL_COLOR_BUFFER_BIT);
+	glColor3f(1.0,1.0,1.0);
+	
+	glPointSize(2.0);
+	glBegin(GL_LINES);	
+	glVertex2d(-1000,0);
+	glVertex2d(1000,0);
+	glVertex2d(0,-1000);
+	glVertex2d(0,1000);
+	glEnd();
+	
+	glColor3f(1.0,0.0,1.0);
 	glBegin(GL_LINE_LOOP);
 	for(int i=0;i<3;i++)
 	{
-		glVertex2d(m[i][0],m[i][1]);
+		glVertex2f(result[i][0],result[i][1]);
 	}
 	glEnd();
 	glFlush();
 }
 
+void displayResultR()
+{
+	glClear(GL_COLOR_BUFFER_BIT);
+	glColor3f(1.0,1.0,1.0);
+	
+	glPointSize(2.0);
+	glBegin(GL_LINES);	
+	glVertex2d(-1000,0);
+	glVertex2d(1000,0);
+	glVertex2d(0,-1000);
+	glVertex2d(0,1000);
+	glEnd();
+	
+	glColor3f(1.0,0.0,1.0);
+	glBegin(GL_LINE_LOOP);
+	for(int i=0;i<4;i++)
+	{
+		glVertex2f(result[i][0],result[i][1]);
+	}
+	glEnd();
+	glFlush();
+}
 
 void displayTriangle()
 {
@@ -109,12 +164,10 @@ void displayRhombus()
 
 void rotateTriangle()
 {
-	int ox, oy, ang;
+	int ang;
 	
 	cout<<"\nEnter the angle of rotation :"<<endl;
 	cin>>ang;
-	cout<<"\nEnter the point to rotate about :"<<endl;
-	cin>>ox>>oy;
 	
 	ang = ang * (PI/180);
 	
@@ -128,15 +181,102 @@ void rotateTriangle()
 	m[2][1] = 0;
 	m[2][2] = 1;
 	
-	multiplyT();
+	if(choice == 1)
+		multiplyT();
+	else
+		multiplyR();
+}
+
+void scaleTriangle()
+{
+	float sx, sy;
+	
+	cout<<"\nEnter the scaling factor in x direction :"<<endl;
+	cin>>sx;
+	cout<<"\nEnter the scaling factor in y direction :"<<endl;
+	cin>>sy;
+	
+	m[0][0] = sx;
+	m[0][1] = 0;
+	m[0][2] = 0;
+	m[1][0] = 0;
+	m[1][1] = sy;
+	m[1][2] = 0;
+	m[2][0] = 0;
+	m[2][1] = 0;
+	m[2][2] = 1;
+	
+	if(choice == 1)
+		multiplyT();
+	else
+		multiplyR();
+}
+
+void translateTriangle()
+{
+	float tx, ty;
+	
+	cout<<"\nEnter the translation factor in x direction :"<<endl;
+	cin>>tx;
+	cout<<"\nEnter the translation factor in y direction :"<<endl;
+	cin>>ty;
+	
+	m[0][0] = 1;
+	m[0][1] = 0;
+	m[0][2] = 0;
+	m[1][0] = 0;
+	m[1][1] = 1;
+	m[1][2] = 0;
+	m[2][0] = tx;
+	m[2][1] = ty;
+	m[2][2] = 1;
+	
+	if(choice == 1)
+		multiplyT();
+	else
+		multiplyR();
+}
+
+void sheerTriangle()
+{
+	float x, y;
+	
+	cout<<"\nEnter the sheer factor in x direction :"<<endl;
+	cin>>x;
+	cout<<"\nEnter the sheer factor in y direction :"<<endl;
+	cin>>y;
+	
+	m[0][0] = 1;
+	m[0][1] = y;
+	m[0][2] = 0;
+	m[1][0] = x;
+	m[1][1] = 1;
+	m[1][2] = 0;
+	m[2][0] = 0;
+	m[2][1] = 0;
+	m[2][2] = 1;
+	
+	if(choice == 1)
+		multiplyT();
+	else
+		multiplyR();
 }
 
 void menu(int item)
 {
 	switch(item)
 	{
+	case 1:
+		scaleTriangle();
+		break;
+	case 2:
+		sheerTriangle();
+		break;
 	case 3:
 		rotateTriangle();
+		break;
+	case 4:
+		translateTriangle();
 		break;
 	case 5:
 		exit(0);
@@ -145,7 +285,6 @@ void menu(int item)
 
 int main(int argc, char **argv)
 {
-	int choice;
 	cout<<"\n****TRANSFORMATION MENU*****\n1)Traingle\n2)Rhombus\n3)Exit"<<endl;
 	cin>>choice;
 	
@@ -168,11 +307,11 @@ int main(int argc, char **argv)
 			r[1][0] = xx1;
 			r[1][1] = yy1 + len;
 			r[1][2] = 1;
-			r[2][0] = xx1 + len + len*cos(angle);
-			r[2][1] = yy1 + len*sin(angle);
+			r[2][0] = xx1 + len*sin(angle);
+			r[2][1] = yy1 + len + len*cos(angle);
 			r[2][2] = 1;
-			r[3][0] = xx1 + len*cos(angle);
-			r[3][1] = yy1 + len*sin(angle);
+			r[3][0] = xx1 + len*sin(angle);
+			r[3][1] = yy1 + len*cos(angle);
 			r[3][2] = 1;
 			
 		}
