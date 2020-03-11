@@ -57,7 +57,6 @@ void graph::initialize()
 			grp[i][j] = 0;
 			selected[i][j] = 0;
 		}
-		visited[i] = 0;
 		parent[i] = i;
 	}
 	cout<<"\nGraph created."<<endl;
@@ -121,21 +120,20 @@ int graph::findParent(int v)
 void graph::kruskals()
 {
 	int minw, mins, mind;
+	int k = 1;
 	
-	for(int k=0; k<v; k++)
+	while(k != v)
 	{
 		minw = 100;
 		for(int i=0; i<v; i++)
 		{
 			for(int j=0; j<v; j++)
 			{
-				if(grp[i][j] != 0 && !selected[i][j] && grp[i][j] < minw)
+				if(grp[i][j] != 0 && !selected[i][j] && grp[i][j] <= minw)
 				{
 					minw = grp[i][j];
 					mins = i;
 					mind = j;
-					selected[i][j] = 1;
-					selected[j][i] = 1;
 				}
 			}
 		}
@@ -146,6 +144,9 @@ void graph::kruskals()
 			mst[mind][mins] = minw;
 			parent[mind] = mins;
 			cost += mst[mins][mind];
+			selected[mins][mind] = 1;
+			selected[mind][mins] = 1;
+			k++;
 		}
 	}
 }
