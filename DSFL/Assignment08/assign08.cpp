@@ -13,7 +13,7 @@ class graph
     	graph();
     	graph(int v, int e);
     	void initialize(int src);
-    	void dijkstras(int src);
+    	void dijkstras();
     	void displayGraph();
     	void displaySP();
 };
@@ -92,45 +92,40 @@ void graph::displaySP()
 {
 	cout<<"\nThe shortest paths for the source are :"<<endl;
 	cout<<"------------------------"<<endl;
+	cout<<"Vertex\tDistance"<<endl;
+	cout<<"------------------------"<<endl;
 	
 	for(int i=0; i<v; i++)
 	{
-		cout<<setw(5)<<sp[i];
+		cout<<i+1<<"\t"<<sp[i]<<endl;
 	}
 }
 
 
-void graph::dijkstras(int src)
+void graph::dijkstras()
 {
-	int j, min, dis = 0;
+	int min, dis = 0;
 	
-	printf("a\n");
-	
-	for(int i = 0; i<v; i++)
+	for(int k=0; k<v-1; k++)
 	{
-		visited[src] = 1;
-		if(i != src)
+		min = -1;
+		for(int i=0; i<v; i++)
 		{
-			dis = sp[i] + grp[src][i];
-			sp[i] = dis < sp[i] ? dis : sp[i];
-			printf("b\n");
+			if(!visited[i] && (min == -1 || sp[i] < sp[min]))
+				min = i;
+		}
+		visited[min] = 1;
+		
+		for(int j=0; j<v; j++)
+		{
+			if(grp[min][j] != 0 && !visited[j])
+			{
+				dis = sp[min] + grp[min][j];
+				if(dis < sp[j])
+					sp[j] = dis;
+			} 
 		}
 	}
-	
-	min = INF;
-	for(int i=0; i<v; i++)
-	{
-		if(i != src && !visited[i] && sp[i] < min)
-		{
-			min = sp[i];
-			src = i;
-			printf("c\n");
-		}
-	}
-	
-	printf("d\n");
-	if(!visited[src])
-		dijkstras(src);
 }
 
 int main()
@@ -161,43 +156,12 @@ int main()
 			break;
 			
 		case 3:
-			g.dijkstras(--s);
+			g.dijkstras();
 			g.displaySP();
 			break;
 			
 		case 4:
-			exit(0);
+			exit(0);	
 		}
 	}while(1);
 }
-
-/*
-
-0 		 0
-1 		 4
-2 		 12
-3 		 19
-4 		 21
-5 		 11
-6 		 9
-7 		 8
-8 		 14
-
-
-1 2 4
-1 8 8
-2 3 8
-2 8 11
-3 4 7
-3 6 4
-3 9 2
-4 5 9
-4 6 14
-5 6 10
-6 7 2
-7 8 1
-7 9 6
-8 9 7
-
-
-*/
